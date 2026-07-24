@@ -1,0 +1,218 @@
+@import 'tailwindcss';
+
+/*
+ * Browser History Analyzer — Neo-Brutalism Design System
+ *
+ * Design tokens are CSS variables so components can read them from JS/SVG too.
+ * Tailwind v4 `@theme` exposes them as utilities (bg-paper, text-ink, border-4, etc.)
+ */
+
+@theme {
+	/* Core palette — bold, high-contrast, slightly warm paper. */
+	--color-paper: #f5f0e8;
+	--color-ink: #0d0d0d;
+	--color-ink-soft: #2a2a2a;
+
+	/* Accents — saturated, punchy, never muddy. */
+	--color-accent: #ff5c00; /* primary orange */
+	--color-accent-2: #ffd400; /* sunflower yellow */
+	--color-accent-3: #00c896; /* emerald */
+	--color-accent-4: #4d7cff; /* cobalt */
+	--color-accent-5: #ff3d7f; /* hot pink */
+	--color-accent-6: #9b6bff; /* violet */
+
+	/* Surfaces */
+	--color-surface: #ffffff;
+	--color-surface-alt: #efe9df;
+	--color-border: #0d0d0d;
+
+	/* Dark theme overrides applied via [data-theme="dark"] below. */
+
+	--font-sans:
+		'Inter', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+	--font-mono:
+		'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+	--shadow-brutal: 6px 6px 0 var(--color-ink);
+	--shadow-brutal-sm: 3px 3px 0 var(--color-ink);
+	--shadow-brutal-lg: 10px 10px 0 var(--color-ink);
+	--shadow-brutal-press: 2px 2px 0 var(--color-ink);
+}
+
+/* Dark mode token overrides */
+:root[data-theme='dark'] {
+	--color-paper: #0e0e10;
+	--color-ink: #f5f0e8;
+	--color-ink-soft: #d8d3c9;
+
+	--color-surface: #18181b;
+	--color-surface-alt: #232327;
+	--color-border: #f5f0e8;
+
+	--color-accent: #ff7a33;
+	--color-accent-2: #ffe14d;
+	--color-accent-3: #2ee6a7;
+	--color-accent-4: #6f9bff;
+	--color-accent-5: #ff5c95;
+	--color-accent-6: #b48cff;
+
+	--shadow-brutal: 6px 6px 0 var(--color-ink);
+	--shadow-brutal-sm: 3px 3px 0 var(--color-ink);
+	--shadow-brutal-lg: 10px 10px 0 var(--color-ink);
+	--shadow-brutal-press: 2px 2px 0 var(--color-ink);
+}
+
+/* Base layer */
+@layer base {
+	* {
+		border-color: var(--color-border);
+	}
+
+	html {
+		font-family: var(--font-sans);
+		-webkit-text-size-adjust: 100%;
+		scroll-behavior: smooth;
+	}
+
+	body {
+		background-color: var(--color-paper);
+		color: var(--color-ink);
+		min-height: 100vh;
+		/* Subtle dotted grid background — paper texture lives on ::below */
+	}
+	body::before {
+		content: '';
+		position: fixed;
+		inset: 0;
+		pointer-events: none;
+		z-index: -1;
+		background-image: radial-gradient(
+			var(--color-ink) 0.6px,
+			transparent 0.6px
+		);
+		background-size: 22px 22px;
+		opacity: 0.05;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4 {
+		font-weight: 900;
+		letter-spacing: -0.02em;
+		line-height: 1.05;
+	}
+
+	/* Visible focus ring for keyboard users */
+	:focus-visible {
+		outline: 3px solid var(--color-accent-4);
+		outline-offset: 2px;
+	}
+
+	/* Custom scrollbar — brutalist */
+	::-webkit-scrollbar {
+		width: 14px;
+		height: 14px;
+	}
+	::-webkit-scrollbar-track {
+		background: var(--color-surface-alt);
+		border: 2px solid var(--color-border);
+	}
+	::-webkit-scrollbar-thumb {
+		background: var(--color-accent);
+		border: 2px solid var(--color-border);
+	}
+	::-webkit-scrollbar-thumb:hover {
+		background: var(--color-accent-2);
+	}
+}
+
+/* Component layer — reusable Neo-Brutalism primitives */
+@layer components {
+	/* Cards / panels — the building block of the whole UI */
+	.nb-card {
+		background-color: var(--color-surface);
+		border: 3px solid var(--color-border);
+		box-shadow: var(--shadow-brutal);
+		transition:
+			transform 120ms ease-out,
+			box-shadow 120ms ease-out;
+	}
+	.nb-card-hover:hover {
+		transform: translate(-2px, -2px);
+		box-shadow: var(--shadow-brutal-lg);
+	}
+
+	/* Buttons — hard shadow, press on click */
+	.nb-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		font-weight: 800;
+		letter-spacing: -0.01em;
+		border: 3px solid var(--color-border);
+		box-shadow: var(--shadow-brutal-sm);
+		transition:
+			transform 80ms ease-out,
+			box-shadow 80ms ease-out,
+			background-color 80ms ease-out;
+		cursor: pointer;
+		user-select: none;
+	}
+	.nb-btn:active {
+		transform: translate(2px, 2px);
+		box-shadow: var(--shadow-brutal-press);
+	}
+	.nb-btn:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+		transform: none;
+		box-shadow: var(--shadow-brutal-sm);
+	}
+
+	/* Chip / tag */
+	.nb-chip {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		font-weight: 700;
+		font-size: 0.75rem;
+		padding: 0.15rem 0.5rem;
+		border: 2px solid var(--color-border);
+		background: var(--color-surface-alt);
+		white-space: nowrap;
+	}
+
+	/* Inputs — flat, heavy bordered */
+	.nb-input {
+		background-color: var(--color-surface);
+		border: 3px solid var(--color-border);
+		box-shadow: var(--shadow-brutal-sm);
+		font-weight: 600;
+		color: var(--color-ink);
+	}
+	.nb-input:focus {
+		outline: none;
+		box-shadow:
+			var(--shadow-brutal-press),
+			0 0 0 3px var(--color-accent-4);
+	}
+}
+
+@layer utilities {
+	.text-balance {
+		text-wrap: balance;
+	}
+	/* Reduced motion: kill transforms/shadows that imply movement */
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+			scroll-behavior: auto !important;
+		}
+	}
+}

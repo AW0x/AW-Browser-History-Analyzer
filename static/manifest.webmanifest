@@ -1,0 +1,17 @@
+{
+	"name": "Browser History Analyzer",
+	"short_name": "History Analyzer",
+	"description": "Privacy-first Browser History Analyzer. Import, explore, and visualize your browser history entirely on your device.",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#f5f0e8",
+	"theme_color": "#ff5c00",
+	"icons": [
+		{
+			"src": "/favicon.svg",
+			"sizes": "any",
+			"type": "image/svg+xml",
+			"purpose": "any"
+		}
+	]
+}
